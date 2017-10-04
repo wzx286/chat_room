@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>聊天室</title>
+	<meta charset="utf-8">
+	<style type="text/css" rel="stylesheet">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: '微软雅黑';
+		}
+		html{
+			width: 100%;
+			height: 100%;
+		}
+		body{
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			width: 100%;
+			height: 100%;	
+			background: lightblue;		
+			overflow: hidden;			
+		}
+		.cum-part{
+			width: 90%;
+			height: 96%;
+			background: rgba(35,35,35,0.6);
+			border:1px solid rgba(35,35,35,0.6);
+			box-shadow: 1px 2px 15px 1px;
+			border-radius: 20px;
+		}
+		.cum-part .cum-inside{
+			position: relative;
+			width: 90%;
+			height: 96%;
+			margin: 10px auto;
+			background: white;			
+			border:1px solid rgba(35,35,35,0.8);
+		}
+		.cum-part .cum-inside .cum-show-area{
+			position: absolute;
+			width: 100%;
+			height: 80%;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame{
+			position: absolute;
+			width: 80%;
+			height: 100%;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-room-title{
+			position: absolute;
+			width: 100%;
+			height: 8%;
+			line-height: 200%;
+			background: #444;
+			color: white;
+			text-indent: 10px;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record{
+			position: absolute;
+			top: 8%;
+			width: calc(100% - 2px);
+			height: calc(92% - 2px);
+			overflow: auto;
+			background-size: 100% 100%;
+			padding: 1px;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-info{
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			overflow: hidden;
+			text-align: center;			
+			margin: 10px 0px;
+			height: auto;
+			font-size: 12px;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-info span{
+			display: block;
+			padding: 0 10px 0 10px;
+			background-color: rgba(255,255,255,0.6);
+			border-radius: 20px;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item{
+			width: calc(100% - 12px);
+			height: auto;
+			margin:5px;
+			/*zoom:1;*/
+			overflow: hidden;
+		}		
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item .cum-usr-img{
+			width: 50px;
+			height: 50px;
+			vertical-align: middle;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item .cum-usr-img img{
+			width: 100%;
+			height: 100%;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item .cum-info{
+			position: relative;
+			left: 10px;
+			width: auto;
+			height: auto;
+			width: calc(100% - 70px);
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item .cum-info .cum-record-bubble{
+			/*position: absolute;*/
+			display: block;
+			padding: 2%;
+			margin: 10px;
+			/*float: right;*/
+			width: auto;
+			height: auto;
+			max-width: 50%;
+			border-radius: 5px;
+			background-color: rgba(255,255,255,0.6);
+			word-wrap: break-word;
+			vertical-align: top;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-show-frame .cum-record .cum-record-item .cum-info .cum-usr-name{
+			display: inline-block;
+			font-size: 15px;
+			color: #232323;
+			/*background: rgba(255,255,255,0.3);*/
+			vertical-align:bottom;
+		}
+		.cum-usr-me .cum-usr-img, .cum-info{
+			float: right;
+		}
+	
+		.cum-usr-me .cum-usr-name{
+			float: right;
+		}
+		.cum-usr-me .cum-record-bubble{
+			float: right;
+		}
+		.cum-usr-other .cum-usr-img, .cum-info{
+			float: left;
+		}
+		.cum-usr-other .cum-usr-name, .cum-record-bubble{
+			clear: both;
+			float: left;
+		}
+
+		.cum-part .cum-inside .cum-show-area .cum-usr-info{
+			position: absolute;
+			right: 0px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			align-items: center;
+			width: 20%;
+			height: 100%;
+			background-color: #222;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-usr-info .usr-img{
+			width: 80%;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-usr-info .usr-img img{
+			width: 100%;
+			height: 100%;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-usr-info .usr-name{
+			position: relative;
+			width: 80%;
+			color: white;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-usr-info .usr-name input{
+			width: 100%;
+			height: 30px;
+		}
+		.cum-part .cum-inside .cum-show-area .cum-usr-info .usr-name button{
+			height: 30px;
+			width: 50%;
+		}
+		.cum-part .cum-inside .cum-text-area{
+			position: absolute;	
+			bottom: 0px;
+			width: 100%;
+			height: 20%;
+		}
+		.cum-part .cum-inside .cum-text-area textarea{
+			position: absolute;
+			left: 0px;
+			top: 0px;			
+			width: calc(80% - 20px);
+			height: calc(100% - 22px); 
+			padding: 10px;
+			font-size: 20px;
+			resize: none;
+		}
+		.cum-part .cum-inside .cum-text-area .submit{
+			position: absolute;
+			right: 0px;
+			width: 20%;
+			font-size: 20px;
+			color: white;
+			text-align: center;
+			height: 100%;
+			line-height: 80px;
+			background-color: rgba(65,105,255,0.9);
+			outline: rgba(65,105,255,0.9);
+			cursor: pointer;
+			vertical-align: middle;
+			display: table-cell;
+		}
+		.cum-part .cum-inside .cum-text-area .submit:hover{
+			opacity: 0.8;
+		}
+		.cum-part .cum-inside .cum-text-area .submit:active{
+			/*top:calc(50% - 19px);;*/
+			opacity: 0.5;
+		}
+	</style>
+	<script type="text/javascript" src='server/wzxAjax.js'></script>
+	<script type="text/javascript" src='js/socket.io.js'></script>
+	<script type="text/template" id='msgTem'>
+		<div class="cum-record-item {#classname#}">
+			<div class="cum-usr-img"><img src="{#headPic#}"></div>
+			<div class="cum-info">
+				<span class="cum-usr-name">{#usrname#}</span>
+				<span class="cum-record-bubble">{#msg#}</span>
+			</div>
+		</div>
+	</script>
+</head>
+<body>
+		<div class="cum-part">
+			<div class="cum-inside">
+				<div class="cum-show-area">
+					<div class="cum-show-frame">
+						<div class="cum-room-title">聊天室</div>
+						<div class="cum-record" id="msg_window">
+							
+						</div>
+					</div>
+					<div class="cum-usr-info">
+						<div class="usr-img">
+							<img src="" id='head'>
+						</div>
+						<div class="usr-name">
+							<label for="txt_usrname">用户名</label>
+							<input type="text" name="usrname" id="txt_usrname" />
+							<label>服务器地址</label>
+							<input type="text" id="server_url" value="http://192.168.16.155:8081">
+							<button onclick="login(this)">登录</button>
+						</div>						
+					</div>
+				</div>
+				<div class="cum-text-area">
+					<textarea id='textArea' rows="13" cols="20"></textarea>
+					<div class="submit" onclick="sendMsg()">发送</div>
+				</div>				
+			</div>
+		</div>
+	
+	<script type="text/javascript">
+		
+		//随机分给每个登录用户一个头像和聊天背景
+		(function(){
+			var index = Math.ceil(Math.random()*3);
+			document.getElementById('head').src = 'head_portrait/head'+index+'.jpg';
+			index = Math.ceil(Math.random()*5);
+			document.getElementById('msg_window').style.backgroundImage = 'url("imgs/'+index+'.jpg")';
+		})();
+
+		function replace(data,temp){
+			return temp.replace(/\{#(\w+)#\}/g,function(match,$1){
+				return data[$1];				
+			});
+		};
+
+		//创建欢迎通知消息
+		function createWelcome(usrname){
+			var html = '<div class="cum-record-info"><span>欢迎 <b>'+usrname+'</b> 来到聊天室!<span></div>';
+			var msgWindow = document.getElementById('msg_window');
+			msgWindow.innerHTML += html;
+			msgWindow.scrollTop = msgWindow.scrollHeight;
+		}
+
+		//创建聊天气泡
+		function createMsgBubble(list){
+			var name = document.getElementById('txt_usrname').value;
+			var temp = document.getElementById('msgTem').innerHTML;			
+			var msgWindow = document.getElementById('msg_window');
+			var newList;
+			var className;
+			if(list.usr == name)
+				className = 'cum-usr-me';
+			else 
+				className = 'cum-usr-other';
+			newList = {
+				classname:className,
+				headPic:list.img,
+				usrname:list.usr,
+				msg:list.msg
+			}
+			var html = replace(newList,temp);
+			msgWindow.innerHTML += html;
+			msgWindow.scrollTop = msgWindow.scrollHeight;
+		}
+
+		function createLeaveMsg(usrname){
+			var html = '<div class="cum-record-info"><span><b>'+usrname+'</b> 已离开聊天室!<span></div>';
+			var msgWindow = document.getElementById('msg_window');
+			msgWindow.innerHTML += html;
+			msgWindow.scrollTop = msgWindow.scrollHeight;
+		}
+
+		function printMsg(list){
+			switch(list.type){
+				case 'msg1':createWelcome(list.usr);break;
+				case 'msg2':createMsgBubble(list);break;
+				case 'msg3':createLeaveMsg(list.usr);break;
+			}					
+		}
+		
+		//设置Socket类
+		function Socket(){
+			this.socket = null;
+			this.usr = null;
+			this.connect = function(usrname,url){
+				this.socket = new io.connect(url+'?usr='+usrname);
+				this.usr = usrname;
+			}
+			this.init = function(){
+				if(this.socket==null){
+					console.log('socket未连接');
+					return;
+				}else{	
+
+					this.socket.on('connect',function() { 
+						console.log('connected!');											
+					});
+
+					this.socket.on('message',function(data) { 
+						var list = JSON.parse(data);
+						printMsg(list);
+					});
+
+					this.socket.on('disconnect',function() { 
+						console.log('disconnected!'); 
+						this.socket.send({type:'msg3',usr:this.usr,msg:''});
+					});
+				} 
+			}			
+			// 发送消息到服务器
+			this.sendMessageToServer = function(message) { 
+				if(this.socket==null){
+					console.log('socket未连接');
+					return;
+				}else{
+					var img = document.getElementById('head').src;
+			  		this.socket.send(JSON.stringify({type:'msg2',usr:this.usr,msg:message,img:img})); 
+			  	}
+			}
+		}
+		//对象化一个socket
+		var ws = new Socket();
+
+		function login(btn){
+			document.getElementById('txt_usrname').disabled = 'true';
+			document.getElementById('server_url').disabled = 'true';
+			btn.disabled = 'true';
+			var data = {};
+			var user = document.getElementById('txt_usrname').value;			
+			var url = document.getElementById('server_url').value;
+			//建立连接
+			ws.connect(user,url);
+			//初始化socket监听事件
+			ws.init();
+		}
+
+		function sendMsg(){
+			var msg = document.getElementById('textArea').value;
+			document.getElementById('textArea').value = '';
+			ws.sendMessageToServer(msg);
+		}
+		
+
+
+		
+	</script>
+</body>
+</html>
